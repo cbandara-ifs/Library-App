@@ -7,6 +7,14 @@ export default function bookReducer(state = initialState.books, action) {
       return [...state, { ...action.book }];
     case types.LOAD_BOOKS_SUCCESS:
       return action.books;
+    case types.UPDATE_BOOKS_SUCCESS:
+      return state.map(book =>
+        book.id === action.book.id ? action.book : book
+      );
+    case types.CREATE_BOOKS_SUCCESS:
+      return [...state, { ...action.book }];
+    case types.DELETE_BOOK_OPRIMISTIC:
+      return state.filter(book => book.id !== action.book.id);
     default:
       return state;
   }

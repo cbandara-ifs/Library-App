@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as bookActions from "../../redux/actions/bookActions";
 import * as authorActions from "../../redux/actions/authorActions";
 import BookList from "./BookList";
+import Spinner from "../common/Spinner";
+import { Navigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function BooksPage() {
+  const [redirectToAddCoursePage, setRedirectToAddCoursePage] = useState(false);
   const dispatch = useDispatch();
   const authors = useSelector(state => state.authors);
   const books = useSelector(state =>
@@ -17,54 +21,53 @@ export default function BooksPage() {
             "unknown"
         }))
   );
-
-  const [book, setBook] = useState({
-    title: ""
-  });
+  const apiCalls = useSelector(state => state.apiCallsInProgress);
 
   useEffect(() => {
-    const loadBooks = async () => {
-      try {
-        await dispatch(bookActions.loadBooks());
-      } catch (error) {
-        alert("loading failed");
-      }
-    };
-
-    const loadAuthors = async () => {
-      try {
-        await dispatch(authorActions.loadAuthors());
-      } catch (error) {
-        alert("loading failed");
-      }
-    };
+    if (authors.length === 0) {
+      dispatch(authorActions.loadAuthors()).catch(error => {
+        alert("Loading authors failed" + error);
+      });
+    }
 
     if (books.length === 0) {
-      loadBooks();
-    }
-    if (authors.length === 0) {
-      loadAuthors();
+      dispatch(bookActions.loadBooks()).catch(error => {
+        alert("Load books failed" + error);
+      });
     }
   }, [dispatch]);
 
-  const handleChange = event => {
-    setBook({ ...book, title: event.target.value });
+  const handleOnClick = () => {
+    setRedirectToAddCoursePage(true);
   };
 
-  const handleOnSubmit = event => {
-    event.preventDefault();
-    dispatch(bookActions.createBook(book));
+  const handleOnDelete = async book => {
+    toast.success("Book Deleted");
+    try {
+      await dispatch(bookActions.deleteBook(book));
+    } catch (error) {
+      toast.error("Book Delete Failed" + error.message, { autoClose: false });
+    }
   };
 
   return (
     <>
-      <form onSubmit={handleOnSubmit}>
-        <h2>Books</h2>
-        <h3>Add Book</h3>
-        <input type="text" onChange={handleChange} value={book.title} />
-        <input type="submit" value="Save" />
-      </form>
-      <BookList books={books}></BookList>
+      {redirectToAddCoursePage && <Navigate to="/book" />}
+      <h2>Books</h2>
+      {apiCalls > 0 ? (
+        <Spinner />
+      ) : (
+        <>
+          <button
+            style={{ marginBottom: 20 }}
+            className="btn btn-primary add-book"
+            onClick={handleOnClick}
+          >
+            Add Book
+          </button>
+          <BookList onDeleteClick={handleOnDelete} books={books}></BookList>
+        </>
+      )}
     </>
   );
 }

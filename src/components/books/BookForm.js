@@ -13,7 +13,7 @@ const BookForm = ({
 }) => {
   return (
     <form onSubmit={onSave}>
-      <h2>{book.id ? "Edit" : "Add"} Course</h2>
+      <h2>{book.id ? "Edit" : "Add"} Book</h2>
       {errors.onSave && (
         <div className="alert alert-danger" role="alert">
           {errors.onSave}
@@ -37,7 +37,7 @@ const BookForm = ({
           text: author.firstName
         }))}
         onChange={onChange}
-        error={errors.category}
+        error={errors.authorId}
       />
 
       <TextInput
