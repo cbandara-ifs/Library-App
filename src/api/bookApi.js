@@ -1,5 +1,5 @@
 import { handleResponse, handleError } from "./apiUtils";
-const baseUrl = process.env.API_URL + "/books/";
+const baseUrl = process.env.API_URL + "/api/books/";
 
 export function getbooks() {
   return fetch(baseUrl).then(handleResponse).catch(handleError);

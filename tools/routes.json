@@ -1,0 +1,4 @@
+{
+  "/api/books": "/books",
+  "/api/authors": "/authors"
+}

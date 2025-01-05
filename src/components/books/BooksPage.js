@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as bookActions from "../../redux/actions/bookActions";
 import * as authorActions from "../../redux/actions/authorActions";
@@ -11,16 +11,22 @@ export default function BooksPage() {
   const [redirectToAddCoursePage, setRedirectToAddCoursePage] = useState(false);
   const dispatch = useDispatch();
   const authors = useSelector(state => state.authors);
-  const books = useSelector(state =>
-    state.authors.length === 0
-      ? []
-      : state.books.map(book => ({
-          ...book,
-          authorName:
-            state.authors.find(a => a.id === book.authorId)?.firstName ||
-            "unknown"
-        }))
-  );
+  const authorMap = useMemo(() => {
+    return authors.reduce((acc, author) => {
+      acc[author.id] = author.firstName;
+      return acc;
+    }, {});
+  }, [authors]);
+
+  const books = useSelector(state => {
+    if (state.authors.length === 0) return [];
+
+    // Map books with optimized author lookup
+    return state.books.map(book => ({
+      ...book,
+      authorName: authorMap[book.authorId] || "unknown"
+    }));
+  });
   const apiCalls = useSelector(state => state.apiCallsInProgress);
 
   useEffect(() => {

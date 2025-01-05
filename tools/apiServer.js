@@ -15,6 +15,7 @@ const jsonServer = require("json-server");
 const server = jsonServer.create();
 const path = require("path");
 const router = jsonServer.router(path.join(__dirname, "db.json"));
+const routes = require("./routes.json");
 
 // Can pass a limited number of options to this to override (some) defaults. See https://github.com/typicode/json-server#api
 const middlewares = jsonServer.defaults({
@@ -24,6 +25,8 @@ const middlewares = jsonServer.defaults({
 
 // Set default middlewares (logger, static, cors and no-cache)
 server.use(middlewares);
+
+server.use(jsonServer.rewriter(routes));
 
 // To handle POST, PUT and PATCH you need to use a body-parser. Using JSON Server's bodyParser
 server.use(jsonServer.bodyParser);
@@ -44,7 +47,7 @@ server.use((req, res, next) => {
   next();
 });
 
-server.post("/books/", function (req, res, next) {
+server.post("/api/books/", function (req, res, next) {
   const error = validateBook(req.body);
   if (error) {
     res.status(400).send(error);
