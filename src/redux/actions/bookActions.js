@@ -27,8 +27,8 @@ export function loadBooks() {
     dispatch(beginApiCall());
     return bookApi
       .getbooks()
-      .then(books => {
-        dispatch(loadBooksSuccess(books));
+      .then(res => {
+        dispatch(loadBooksSuccess(res.data));
       })
       .catch(error => {
         dispatch(apiErrorCall(error));
@@ -42,10 +42,10 @@ export function saveBook(book) {
     dispatch(beginApiCall());
     return bookApi
       .saveBook(book)
-      .then(savedBook => {
+      .then(res => {
         book.id
-          ? dispatch(updateBooksSuccess(savedBook))
-          : dispatch(createBooksSuccess(savedBook));
+          ? dispatch(updateBooksSuccess(res.data))
+          : dispatch(createBooksSuccess(res.data));
       })
       .catch(error => {
         dispatch(apiErrorCall(error));

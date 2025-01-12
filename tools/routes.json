@@ -1,4 +1,5 @@
 {
   "/api/books": "/books",
+  "/api/books/:id": "/books/:id",
   "/api/authors": "/authors"
 }

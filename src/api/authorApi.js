@@ -1,6 +1,6 @@
-import { handleResponse, handleError } from "./apiUtils";
-const baseUrl = process.env.API_URL + "/api/authors/";
+import { getAxios } from "../utils/axiosUtils";
 
 export function getAuthors() {
-  return fetch(baseUrl).then(handleResponse).catch(handleError);
+  const { default: api } = getAxios();
+  return api.get(`/api/authors/`);
 }

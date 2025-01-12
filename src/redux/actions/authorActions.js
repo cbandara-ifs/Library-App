@@ -15,8 +15,8 @@ export function loadAuthors() {
     dispatch(beginApiCall());
     return authorApi
       .getAuthors()
-      .then(authors => {
-        dispatch(loadAuthorsSuccess(authors));
+      .then(res => {
+        dispatch(loadAuthorsSuccess(res.data));
       })
       .catch(error => {
         dispatch(apiErrorCall(error));

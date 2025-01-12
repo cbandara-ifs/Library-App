@@ -9,8 +9,10 @@ import BooksPage from "./books/BooksPage";
 import ManageBooksPage from "./books/ManageBooksPage";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { configureAxios } from "../utils/axiosUtils";
 
 export default function App() {
+  configureAxios();
   return (
     <div className="container-fluid">
       <Header />
