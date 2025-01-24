@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { Book, BookListProps } from "../../lib/interfaces";
 
-const BookList = ({ onDeleteClick, books }) => (
+const BookList: React.FC<BookListProps> = ({ onDeleteClick, books }) => (
   <table className="table">
     <thead>
       <tr>
@@ -13,7 +14,7 @@ const BookList = ({ onDeleteClick, books }) => (
       </tr>
     </thead>
     <tbody>
-      {books.map(book => {
+      {books.map((book : Book) => {
         return (
           <tr key={book.id}>
             <td>
@@ -35,10 +36,5 @@ const BookList = ({ onDeleteClick, books }) => (
     </tbody>
   </table>
 );
-
-BookList.propTypes = {
-  books: PropTypes.array.isRequired,
-  onDeleteClick: PropTypes.func.isRequired
-};
 
 export default BookList;

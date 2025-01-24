@@ -2,8 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import TextInput from "../common/TextInput";
 import SelectInput from "../common/SelectInput";
+import { BookFormProps } from "../../lib/interfaces";
 
-const BookForm = ({
+const BookForm: React.FC<BookFormProps> = ({
   book,
   authors,
   onSave,
@@ -56,12 +57,3 @@ const BookForm = ({
 };
 
 export default BookForm;
-
-BookForm.propTypes = {
-  authors: PropTypes.array.isRequired,
-  book: PropTypes.object.isRequired,
-  errors: PropTypes.object,
-  onSave: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  saving: PropTypes.bool
-};

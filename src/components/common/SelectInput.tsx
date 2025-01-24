@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { SelectInputProps } from "../../lib/interfaces";
 
-const SelectInput = ({
+const SelectInput : React.FC<SelectInputProps>  = ({
   name,
   label,
   onChange,
@@ -21,7 +22,7 @@ const SelectInput = ({
           className="form-control"
         >
           <option value="">{defaultOption}</option>
-          {options.map(option => {
+          {options.map((option : { value: string | number; text: string }) => {
             return (
               <option key={option.value} value={option.value}>
                 {option.text}
@@ -33,16 +34,6 @@ const SelectInput = ({
       </div>
     </div>
   );
-};
-
-SelectInput.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  defaultOption: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  error: PropTypes.string,
-  options: PropTypes.arrayOf(PropTypes.object)
 };
 
 export default SelectInput;

@@ -6,40 +6,38 @@ import BookList from "./BookList";
 import Spinner from "../common/Spinner";
 import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { RootState, AppDispatch } from "../../redux/configureStore.dev";
+import { Author, AuthorMap, Book } from "../../lib/interfaces";
 
 export default function BooksPage() {
   const [redirectToAddCoursePage, setRedirectToAddCoursePage] = useState(false);
-  const dispatch = useDispatch();
-  const authors = useSelector(state => state.authors);
+  const dispatch = useDispatch<AppDispatch>();
+  const authors = useSelector((state : RootState) => state.authors);
   const authorMap = useMemo(() => {
-    return authors.reduce((acc, author) => {
+    return authors.reduce<AuthorMap>((acc, author) => {
       acc[author.id] = author.firstName;
       return acc;
     }, {});
   }, [authors]);
 
-  const books = useSelector(state => {
+  const books = useSelector((state : RootState) => {
     if (state.authors.length === 0) return [];
 
     // Map books with optimized author lookup
-    return state.books.map(book => ({
+    return state.books.map((book : Book) => ({
       ...book,
       authorName: authorMap[book.authorId] || "unknown"
     }));
   });
-  const apiCalls = useSelector(state => state.apiCallsInProgress);
+  const apiCalls = useSelector((state : RootState) => state.apiCallsInProgress);
 
   useEffect(() => {
     if (authors.length === 0) {
-      dispatch(authorActions.loadAuthors()).catch(error => {
-        alert("Loading authors failed" + error);
-      });
+      dispatch(authorActions.loadAuthors())
     }
 
     if (books.length === 0) {
-      dispatch(bookActions.loadBooks()).catch(error => {
-        alert("Load books failed" + error);
-      });
+      dispatch(bookActions.loadBooks())
     }
   }, [dispatch]);
 
@@ -47,12 +45,14 @@ export default function BooksPage() {
     setRedirectToAddCoursePage(true);
   };
 
-  const handleOnDelete = async book => {
+  const handleOnDelete = async (book : Book) => {
     toast.success("Book Deleted");
     try {
       await dispatch(bookActions.deleteBook(book));
-    } catch (error) {
-      toast.error("Book Delete Failed" + error.message, { autoClose: false });
+    } catch (error : unknown) {
+      const errorMessage =
+            error instanceof Error ? error.message : "An unexpected error occurred.";
+      toast.error("Book Delete Failed" + errorMessage, { autoClose: false });
     }
   };
 

@@ -8,11 +8,14 @@ module.exports = {
   mode: "development",
   target: "web",
   devtool: "cheap-module-source-map",
-  entry: "./src/index",
+  entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, "build"),
     publicPath: "/",
     filename: "bundle.js"
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
   stats: "minimal",
   devServer: {
@@ -34,6 +37,11 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: ["babel-loader", "eslint-loader"]
+      },
+      {
+        test: /\.(ts|tsx)$/,
+        loader: "ts-loader",
+        exclude: /node_modules/,
       },
       {
         test: /(\.css)$/,

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const Header = () => {
+const Header: React.FC = () => {
   return (
     <nav>
       <NavLink to="/">Home</NavLink>
