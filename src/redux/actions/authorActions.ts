@@ -5,25 +5,17 @@ import { Author } from "../../lib/interfaces";
 import { beginApiCall, apiErrorCall } from "./apiStatusAction";
 import { ThunkAction } from "@reduxjs/toolkit";
 import { RootState } from "../configureStore.dev";
+import { createAuthor, loadAuthorsSuccess } from "../slices/authorSlice";
 
 type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;
 
-export function createAuthor(author : Author) : { type: string; author: Author }{
-  return { type: actionTypes.CREATE_AUTHOR, author };
-}
-
-export function loadAuthorsSuccess(authors : Author[])  : { type: string; authors: Author[] }{
-  return { type: actionTypes.LOAD_AUTHORS_SUCCESS, authors };
-}
-
 export function loadAuthors(): AppThunk {
-  return async (dispatch : Dispatch) : Promise<void> => {
+  return async (dispatch: Dispatch): Promise<void> => {
     dispatch(beginApiCall());
-    try{
+    try {
       const res = await authorApi.getAuthors();
       dispatch(loadAuthorsSuccess(res.data));
-    }
-    catch(error : unknown){
+    } catch (error: unknown) {
       dispatch(apiErrorCall());
       throw error;
     }

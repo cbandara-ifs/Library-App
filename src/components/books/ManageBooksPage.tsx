@@ -9,15 +9,15 @@ import { AppDispatch, RootState } from "../../redux/configureStore.dev";
 import { Book } from "../../lib/interfaces";
 
 export default function ManageBooksPage() {
-  const newBook : Book = {
+  const newBook: Book = {
     id: 1,
     title: "",
     authorId: 1,
     category: ""
-  }
+  };
   const [book, setBook] = useState(newBook);
-  const authors = useSelector((state : RootState)  => state.authors);
-  const books = useSelector((state : RootState)  => state.books);
+  const authors = useSelector((state: RootState) => state.authors.authors);
+  const books = useSelector((state: RootState) => state.books);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [saving, setSaving] = useState(false);
@@ -26,7 +26,7 @@ export default function ManageBooksPage() {
 
   useEffect(() => {
     if (books.length === 0) {
-      dispatch(loadBooks())
+      dispatch(loadBooks());
     } else if (slug) {
       setBook(books.find(book => book.slug === slug) || newBook);
     }
@@ -34,13 +34,17 @@ export default function ManageBooksPage() {
 
   useEffect(() => {
     if (authors.length === 0) {
-      dispatch(loadAuthors())
+      dispatch(loadAuthors());
     }
   }, [authors]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     const { name, value } = event.target;
-    setBook((prevBook : Book) => ({
+    setBook((prevBook: Book) => ({
       ...prevBook,
       [name]: name === "authorId" ? parseInt(value, 10) : value
     }));
@@ -65,12 +69,13 @@ export default function ManageBooksPage() {
       await dispatch(saveBook(book));
       toast.success("Book Saved");
       navigate("/books");
-    }
-    catch(error: unknown){
+    } catch (error: unknown) {
       setSaving(false);
       const errorMessage =
-            error instanceof Error ? error.message : "An unexpected error occurred.";
-        setErrors({ onSave: errorMessage});
+        error instanceof Error
+          ? error.message
+          : "An unexpected error occurred.";
+      setErrors({ onSave: errorMessage });
     }
   };
   return (

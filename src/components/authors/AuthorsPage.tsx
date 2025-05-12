@@ -6,11 +6,11 @@ import { AppDispatch } from "../../redux/configureStore.dev";
 
 export default function AuthorsPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const authors = useSelector((state: RootState)=> state.authors);
+  const authors = useSelector((state: RootState) => state.authors.authors);
 
   useEffect(() => {
     if (authors.length === 0) {
-      dispatch(authorActions.loadAuthors())
+      dispatch(authorActions.loadAuthors());
     }
   }, [dispatch, authors]);
 

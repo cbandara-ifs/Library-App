@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import authors from "./authorReducer";
+import authors from "../slices/authorSlice";
 import books from "./bookReducers";
 import apiCallsInProgress from "./apiStatusReducer";
 
