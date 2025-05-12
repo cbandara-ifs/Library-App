@@ -1,0 +1,44 @@
+// ============ COLOURS==============
+
+// Primary
+$jayride_green: #296532;
+$bright_green_tint: #f1f8ec;
+
+// Brand
+$brand1: #00153f;
+$brand2: #e31665;
+$brand3: #43d3ff;
+$brand3_tint: #e3f8ff;
+$brand4: #4e617c;
+
+// Greyscale
+$grey90: #181823;
+$grey50: #8b8b91;
+$grey20: #cccccf;
+$grey10: #e5e5e6;
+$grey5: #f2f2f3;
+$grey3: #f8f8f9;
+$white: #ffffff;
+
+// Button States
+$btn_primary: $brand1;
+$btn_primary_hover: #16547f;
+$btn_primary_pressed: #2d94bf;
+$btn_primary_focus: #16547f;
+$btn_primary_disabled: $grey5;
+
+// ============= FONTS ============
+$font_weight_lighter: 300;
+$font_weight_normal: 400;
+$font_weight_semibold: 600;
+
+// ============= SHADOWS ============
+$shadow_small: 0px 2px 5px rgba(24, 24, 35, 0.08);
+$shadow_medium: 0px 2px 8px rgba(24, 24, 35, 0.16);
+$shadow_large: 0px 4px 16px rgba(24, 24, 35, 0.16);
+
+// ============= UI ============
+$body: 14px;
+
+// ============= SIZES ============
+$body_reskin: 16px;

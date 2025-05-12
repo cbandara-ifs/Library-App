@@ -1,0 +1,15 @@
+@use "variables" as v;
+
+.page-wrapper {
+  background-color: v.$grey5;
+  padding-top: 50px;
+  padding-bottom: 15px;
+
+  &.with-notification-bar {
+    padding-top: 80px;
+  }
+
+  &.with-fixed-footer {
+    padding-bottom: 40px;
+  }
+}

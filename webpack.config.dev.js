@@ -15,7 +15,7 @@ module.exports = {
     filename: "bundle.js"
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    extensions: [".ts", ".tsx", ".js", ".jsx"]
   },
   stats: "minimal",
   devServer: {
@@ -41,11 +41,23 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         loader: "ts-loader",
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
       {
         test: /(\.css)$/,
         use: ["style-loader", "css-loader"]
+      },
+      {
+        test: /\.scss$/,
+        use: ["style-loader", "css-loader", "sass-loader"]
+      },
+      {
+        test: /\.svg$/,
+        type: "asset/resource"
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif)$/,
+        type: "asset/resource"
       }
     ]
   }
